@@ -1,0 +1,24 @@
+---
+export interface Props {
+  config?: { bootstrap: boolean; bootstrapJs: boolean };
+  title: string;
+}
+
+const { title, config }: Props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <slot name="header" />
+    <title>{title}</title></head
+  >
+
+  <body>
+    <slot />
+  </body>
+</html>

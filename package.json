@@ -1,0 +1,182 @@
+{
+  "name": "website",
+  "scripts": {
+    "astro": "astro",
+    "build": "astro build",
+    "ci": "pnpm lint:ci && pnpm build:ci && pnpm test:ci",
+    "dev": "astro dev --host 0.0.0.0",
+    "format": "prettier --write \"**/*.{astro,js,jsx,ts,tsx,css,scss,md,mdx,yml,yaml,xml,toml,json}\"",
+    "git:clean": "git clean --interactive -dx --exclude .env.local --exclude \".env.*.local\" --exclude node_modules/ --exclude .husky/",
+    "lint": "pnpm-run-all --parallel lint:astro lint:js+ts lint:format lint:types",
+    "lint:astro": "astro check",
+    "lint:ci": "pnpm run lint",
+    "lint:fix": "pnpm-run-all --serial lint:fix:*",
+    "lint:fix:format": "prettier \"**/*\" --write --ignore-unknown",
+    "lint:fix:js+ts": "pnpm run lint:js+ts --fix",
+    "lint:format": "prettier \"**/*\" --check --ignore-unknown",
+    "lint:js+ts": "eslint --ext .astro,.js,.jsx,.cjs,.ts,.tsx,.cts --ignore-path .gitignore .",
+    "lint:types": "tsc --noEmit",
+    "preview": "astro preview",
+    "run-both": "concurrently \"npm run start --prefix client\" \"cd server/venv && flask run\"",
+    "ss:dnm": "find . -type d -name node_modules -prune -exec rm -rf {} \\;",
+    "ss:npk": "pnpm dlx npkill",
+    "ss:pms": "pip list | tail -n +3 | awk '{print $1}' | xargs pip show | grep -E 'Location:|Name:' | cut -d ' ' -f 2 | paste -d ' ' - - | awk '{print $2 \"/\" tolower($1)}' | xargs du -sh 2> /dev/null | sort -hr",
+    "ss:upr": "pnpm --recursive update"
+  },
+  "dependencies": {
+    "@astrojs/solid-js": "^4.4.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/vercel": "^7.7.1",
+    "@supabase/supabase-js": "^2.45.3",
+    "@trpc/client": "^10.45.2",
+    "@trpc/server": "^10.45.2",
+    "astro": "^4.10.3",
+    "drizzle-orm": "^0.30.10",
+    "fast-xml-parser": "^4.3.6",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
+    "node-fetch": "^3.3.2",
+    "peerjs": "^1.5.3",
+    "solid-js": "^1.8.17",
+    "tailwindcss": "^3.4.3",
+    "xlsx": "^0.18.5",
+    "zod": "^3.23.6"
+  },
+  "devDependencies": {
+    "@astrojs/ts-plugin": "^1.8.0",
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@commitlint/cz-commitlint": "^19.2.0",
+    "@trivago/prettier-plugin-sort-imports": "npm:prettier-plugin-sort-imports@^1.8.5",
+    "@typescript-eslint/eslint-plugin": "^7.8.0",
+    "@typescript-eslint/parser": "^7.8.0",
+    "commitizen": "^4.3.0",
+    "daisyui": "^4.11.1",
+    "drizzle-kit": "^0.20.17",
+    "eslint": "^9.2.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-astro": "^1.2.2",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-solid": "^0.14.0",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.14.0",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "prettier-plugin-toml": "^2.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "5.4.5",
+    "vercel": "^34.1.8",
+    "vite-plugin-validate-env": "npm:@julr/vite-plugin-validate-env@^1.1.1"
+  },
+  "packageManager": "pnpm@9.1.1",
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "vite",
+        "react"
+      ]
+    },
+    "allowedDeprecatedVersions": {
+      "@npmcli/move-file": "1.1.2",
+      "rollup-plugin-inject": "3.0.2",
+      "sourcemap-codec": "1.4.8",
+      "stable": "0.1.8",
+      "vm2": "3.9.19"
+    }
+  },
+  "eslintConfig": {
+    "env": {
+      "es2021": true
+    },
+    "extends": [
+      "prettier",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:astro/recommended",
+      "plugin:astro/jsx-a11y-recommended",
+      "plugin:solid/recommended",
+      "@unocss"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "*.astro"
+        ],
+        "parser": "astro-eslint-parser",
+        "parserOptions": {
+          "parser": "@typescript-eslint/parser",
+          "extraFileExtensions": [
+            ".astro"
+          ]
+        },
+        "rules": {
+          "astro/no-set-html-directive": "error"
+        }
+      }
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint",
+      "solid"
+    ],
+    "rules": {
+      "@typescript-eslint/no-explicit-any": 0,
+      "@unocss/blocklist": "warn"
+    }
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "dist",
+    ".turbo",
+    ".github",
+    ".husky",
+    "public"
+  ],
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-astro",
+      "prettier-plugin-toml",
+      "prettier-plugin-sort-imports"
+    ],
+    "printWidth": 120,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": false,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "always",
+    "importOrder": [
+      "^@core/(.*)$",
+      "^@server/(.*)$",
+      "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,css,scss}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{html,css,less,ejs}": [
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  }
+}

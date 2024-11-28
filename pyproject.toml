@@ -1,0 +1,95 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = "a python serverless function"
+authors = ["tokcide <89933773+tokcide@users.noreply.github.com>"]
+readme = "README.md"
+# packages = [{ include = "backend", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+fastapi = { version = "^0.104.1", extras = ["python-multipart"] }
+tortoise-orm = { version = "^0.20.0", extras = ["asyncpg"] }
+python-multipart = "^0.0.6"
+pydantic-settings = "^2.1.0"
+instagrapi = { git = "https://github.com/subzeroid/instagrapi", optional = true }
+copydetect = { git = "https://github.com/kjurel/copydetect-slim", optional = true }
+asgi-correlation-id = { git = "https://github.com/snok/asgi-correlation-id" }
+fastapi-login = { git = "https://github.com/MushroomMaula/fastapi_login" }
+fastapi-class = { git = "https://github.com/yezz123/fastapi-class" }
+requests = "^2.31.0"
+
+[tool.poetry.extras]
+instagram = ["instagrapi"]
+codechecker = ["copydetect"]
+
+[tool.poetry.group.dev.dependencies]
+uvicorn = { extras = ["standard"], version = "^0.23.1" }
+pre-commit = "^3.6.0"
+black = "^23.11.0"
+mypy = "^1.6.1"
+aerich = "^0.7.2"
+types-requests = "^2.31.0.20240406"
+
+[tool.poetry.scripts]
+dev = "backend.run:dev"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.run]
+branch = true
+source = ["backend_fastapipy"]
+
+[tool.coverage.report]
+exclude_lines = ["if TYPE_CHECKING:"]
+show_missing = true
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-report html:'../../coverage/apps/backend-fastapipy/html' --cov-report xml:'../../coverage/apps/backend-fastapipy/coverage.xml' --html='../../reports/apps/backend-fastapipy/unittests/html/index.html' --junitxml='../../reports/apps/backend-fastapipy/unittests/junit.xml'"
+filterwarnings = ["ignore::DeprecationWarning"]
+testpaths = ["tests/"]
+
+[tool.aerich]
+location = "./migrations"
+tortoise_orm = "app.core.init_app.TORTOISE_ORM"
+
+[tool.ruff]
+exclude = [
+  ".git",
+  "__pycache__",
+  "build",
+  "dist",
+  ".tox",
+  "venv",
+  ".venv",
+  ".pytest_cache",
+]
+
+# max-line-length = 120
+[tool.black]
+line-lenght = 120
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = true
+disable_error_code = "misc"
+disallow_untyped_calls = true
+exclude = ["_legacy.py$"]
+# explicit_package_bases = true
+# namespace_packages = true
+# show_error_codes = true
+# warn_unused_ignores = true
+# follow_imports = "silent"
+# warn_redundant_casts = true
+# disallow_any_generics = true
+# check_untyped_defs = true
+# no_implicit_reexport = true
+# # for strict mypy: (this is the tricky one :-))
+# disallow_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
